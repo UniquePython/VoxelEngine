@@ -43,7 +43,12 @@ class VoxelEngine():
     
     
     def run(self) -> None:
-        pass
+        while self.is_running:
+            self.handle_events()
+            self.update()
+            self.render()
+        pg.quit()
+        sys.exit()
 
 
 if __name__ == "__main__":
