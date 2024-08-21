@@ -9,13 +9,22 @@ class VoxelEngine():
         pg.init()
         pg.display.gl_set_attribute(pg.GL_CONTEXT_MAJOR_VERSION, 3)
         pg.display.gl_set_attribute(pg.GL_CONTEXT_MINOR_VERSION, 3)
+        # The profile mask specifies which version of OpenGL should be used by your application.
+        # CORE profile only includes the modern, streamlined features of OpenGL
         pg.display.gl_set_attribute(pg.GL_CONTEXT_PROFILE_MASK, pg.GL_CONTEXT_PROFILE_CORE)
+        # The depth buffer is used to handle depth calculations in 3D rendering, ensuring closer object obscure farther ones.
         pg.display.gl_set_attribute(pg.GL_DEPTH_SIZE, 24)
         
+        # Uses two buffers (front and back) to reduce flickering and tearing, enhancing the rendering smoothness.
         pg.display.set_mode(WIN_RES, flags=pg.OPENGL | pg.DOUBLEBUF)
+        # Creates a ModernGL context, which is an interface between the application and the GPU. This context handles rendering operations, resource management, and more.
         self.ctx = mgl.create_context()
         
+        # Enables depth testing, which ensures that pixels are drawn in the correct order based on their depth.
+        # Enables face culling, which helps optimize rendering by discarding faces of polygons that are not visible (e.g., the back face of a cube).
+        # Enables blending, allowing for transparent or semi-transparent rendering of objects.
         self.ctx.enable(flags=mgl.DEPTH_TEST | mgl.CULL_FACE | mgl.BLEND)
+        # This sets the garbage collection mode for resources in the ModernGL context to automatic, ensuring that unused resources are cleaned up automatically to manage memory efficiently.
         self.ctx.gc_mode = 'auto'
         
         self.clock = pg.time.Clock()
@@ -32,7 +41,9 @@ class VoxelEngine():
     
     
     def render(self) -> None:
-        self.ctx.clear()
+        # Clears the current frame buffer, which essentially wipes the screen clean and prepares it for the next frame to be drawn.
+        self.ctx.clear(color=BG_COLOR)
+        # This function updates the entire screen with what has been rendered since the last `flip`.
         pg.display.flip()
     
     
